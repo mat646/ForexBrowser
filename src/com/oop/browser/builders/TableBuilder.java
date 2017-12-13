@@ -3,15 +3,15 @@ package com.oop.browser.builders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oop.browser.builders.modules.NBPWebAPIClient;
 import com.oop.browser.builders.modules.URLGenerator;
-import com.oop.browser.serializable.Table;
+import com.oop.browser.serializable.*;
 
 import java.io.IOException;
 import java.io.Serializable;
 
 public class TableBuilder implements IBuilder {
 
-    public String URL;
-    public String JSON;
+    public String[] URL;
+    public String[] JSON;
     public Serializable serializable;
 
     @Override
@@ -30,12 +30,12 @@ public class TableBuilder implements IBuilder {
         return this;
     }
 
-    public Serializable buildSerializable() throws IOException {
+    public Serializable[] buildSerializable() throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        Table[] tables = objectMapper.readValue(JSON, Table[].class);
+        Gold[] tables = objectMapper.readValue(JSON[0], Gold[].class);
         serializable = tables;
-        return serializable;
+        return new Serializable[]{serializable};
     }
 }

@@ -10,9 +10,9 @@ import java.net.URLConnection;
 public class NBPWebAPIClient {
 
 
-    public String sendRequest(String URL) throws IOException {
+    public String[] sendRequest(String[] URL) throws IOException {
 
-        URLConnection connection = new URL(URL).openConnection();
+        URLConnection connection = new URL(URL[0]).openConnection();
         connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
         connection.setRequestProperty("Accept-Charset", "utf-8");
         InputStream response = connection.getInputStream();
@@ -21,6 +21,9 @@ public class NBPWebAPIClient {
 
         String line = reader.readLine();
 
-        return line;
+        reader.close();
+        response.close();
+
+        return new String[]{line};
     }
 }

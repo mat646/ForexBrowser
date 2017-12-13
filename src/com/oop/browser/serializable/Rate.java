@@ -11,6 +11,16 @@ public class Rate implements Serializable {
     private String currency;
     private String code;
 
+    public String getMid() {
+        return mid;
+    }
+
+    public void setMid(String mid) {
+        this.mid = mid;
+    }
+
+    private String mid;
+
     public String getNo() {
         return no;
     }
