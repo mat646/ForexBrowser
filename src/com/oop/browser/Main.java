@@ -35,6 +35,6 @@ public class Main implements Runnable{
 
     @Override
     public void run() {
-        System.out.println("Void");
+        System.out.println("Type -h or --help for instructions");
     }
 }

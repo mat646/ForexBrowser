@@ -15,4 +15,8 @@ public class CurrencyTodayCommand extends Subcommand implements Runnable {
     public void run() {
         System.out.println("today");
     }
+
+    private String[] generateURL() {
+        return new String[]{"http://api.nbp.pl/api/xc/?format=json"};
+    }
 }

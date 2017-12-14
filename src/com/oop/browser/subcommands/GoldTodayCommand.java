@@ -12,10 +12,10 @@ import java.util.Calendar;
 )
 public class GoldTodayCommand extends Subcommand implements Runnable {
 
+    private TableBuilder tableBuilder = new TableBuilder();
+
     @Override
     public void run() {
-
-        TableBuilder tableBuilder = new TableBuilder();
 
         String[] url = generateURL();
 
@@ -25,12 +25,16 @@ public class GoldTodayCommand extends Subcommand implements Runnable {
             e.printStackTrace();
         }
 
-        System.out.println("Gold price on " + df.format(Calendar.getInstance().getTime()) + ":");
-        System.out.println(((Gold[])tableBuilder.serializable.get(0))[0].getPrice());
+        perform();
     }
 
     private String[] generateURL() {
         return new String[]{"http://api.nbp.pl/api/cenyzlota/?format=json"};
+    }
+
+    private void perform() {
+        System.out.println("Gold price on " + df.format(Calendar.getInstance().getTime()) + ":");
+        System.out.println(((Gold[])tableBuilder.serializable.get(0))[0].getPrice());
     }
 
 }

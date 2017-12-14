@@ -17,10 +17,10 @@ public class GoldCommand extends Subcommand implements Runnable {
             description = "Date for gold price")
     private Date date;
 
+    private TableBuilder tableBuilder = new TableBuilder();
+
     @Override
     public void run() {
-
-        TableBuilder tableBuilder = new TableBuilder();
 
         String[] url = generateURL(date);
 
@@ -30,12 +30,16 @@ public class GoldCommand extends Subcommand implements Runnable {
             e.printStackTrace();
         }
 
-        System.out.println("Gold price on " + df.format(date) + ":");
-        System.out.println(((Gold[])tableBuilder.serializable.get(0))[0].getPrice());
+        perform();
     }
 
     private String[] generateURL(Date date) {
         return new String[]{"http://api.nbp.pl/api/cenyzlota/" + df.format(date) + "/?format=json"};
+    }
+
+    private void perform() {
+        System.out.println("Gold price on " + df.format(date) + ":");
+        System.out.println(((Gold[])tableBuilder.serializable.get(0))[0].getPrice());
     }
 
 }

@@ -24,26 +24,19 @@ public class GoldAvgCommand extends Subcommand implements Runnable {
             description = "Start endDate for computing")
     private Date endDate;
 
+    private TableBuilder tableBuilder = new TableBuilder();
+
     @Override
     public void run() {
-
-        try {
-            TableBuilder tableBuilder = new TableBuilder();
 
             String formattedStartDate = df.format(startDate);
             String formattedEndDate = df.format(endDate);
 
             String[] urls = generateURL(startDate, endDate);
 
+        try {
             ArrayList<Serializable[]> table = tableBuilder.setURL(urls).sendRequest().buildSerializable("Gold");
-
-            Double avg = ActionManager.GoldAvg.countAvg(table);
-
-            DecimalFormat dfe = new DecimalFormat("#.##");
-            dfe.setRoundingMode(RoundingMode.CEILING);
-
-            System.out.println("Average gold price since " + formattedStartDate +
-                    " to " + formattedEndDate + ":\n" + dfe.format(avg));
+            perform(table, formattedStartDate, formattedEndDate);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,11 +51,11 @@ public class GoldAvgCommand extends Subcommand implements Runnable {
 
         while(getDateDiff(tempdate, date2, TimeUnit.DAYS) > 90) {
 
-            Date tempdate2 = getAddDay(tempdate, 90);
+            Date tempDate2 = getAddDay(tempdate, 90);
 
-            out.add("http://api.nbp.pl/api/cenyzlota/" + df.format(tempdate) + "/" + df.format(tempdate2) + "/?format=json");
+            out.add("http://api.nbp.pl/api/cenyzlota/" + df.format(tempdate) + "/" + df.format(tempDate2) + "/?format=json");
 
-            tempdate.setTime(tempdate2.getTime());
+            tempdate.setTime(tempDate2.getTime());
 
         }
 
@@ -71,6 +64,16 @@ public class GoldAvgCommand extends Subcommand implements Runnable {
 
         return out.toArray(new String[out.size()]);
 
+    }
+
+    private void perform(ArrayList<Serializable[]> table, String formattedStartDate, String formattedEndDate) {
+        Double avg = ActionManager.GoldAvg.countAvg(table);
+
+        DecimalFormat dfe = new DecimalFormat("#.##");
+        dfe.setRoundingMode(RoundingMode.CEILING);
+
+        System.out.println("Average gold price since " + formattedStartDate +
+                " to " + formattedEndDate + ":\n" + dfe.format(avg));
     }
 
 }
