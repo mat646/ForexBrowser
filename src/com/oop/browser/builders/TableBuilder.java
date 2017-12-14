@@ -2,23 +2,20 @@ package com.oop.browser.builders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oop.browser.builders.modules.NBPWebAPIClient;
-import com.oop.browser.builders.modules.URLGenerator;
 import com.oop.browser.serializable.*;
-
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class TableBuilder implements IBuilder {
 
     public String[] URL;
     public String[] JSON;
-    public Serializable serializable;
+    public Serializable[] serializable;
 
     @Override
-    public TableBuilder generateURL(String[] options) {
-
-        URLGenerator urlGenerator = new URLGenerator();
-        URL = urlGenerator.generateURL(options);
+    public TableBuilder setURL(String[] urls) {
+        URL = urls;
         return this;
     }
 
@@ -30,12 +27,22 @@ public class TableBuilder implements IBuilder {
         return this;
     }
 
-    public Serializable[] buildSerializable() throws IOException {
+    public Serializable[] buildSerializable(String typeValue) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        Gold[] tables = objectMapper.readValue(JSON[0], Gold[].class);
-        serializable = tables;
-        return new Serializable[]{serializable};
+        ArrayList<Serializable> serializableArrayList = new ArrayList<>();
+
+        for (String JSON : JSON) {
+            switch (typeValue) {
+                case "Gold": serializableArrayList.add(objectMapper.readValue(JSON, Gold[].class));
+                break;
+                case "Table": serializableArrayList.add(objectMapper.readValue(JSON, Table[].class));
+                break;
+            }
+        }
+
+        serializable = serializableArrayList.toArray(new Serializable[serializableArrayList.size()]);
+        return serializable;
     }
 }

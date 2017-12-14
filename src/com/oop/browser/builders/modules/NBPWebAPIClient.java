@@ -6,24 +6,34 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class NBPWebAPIClient {
 
+    public String[] sendRequest(String[] URL) {
 
-    public String[] sendRequest(String[] URL) throws IOException {
+        return Arrays.stream(URL).map(x ->
+                {
+                    String line = null;
+                    try {
+                        URLConnection connection = new URL(x).openConnection();
+                        connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+                        connection.setRequestProperty("Accept-Charset", "utf-8");
+                        InputStream response = connection.getInputStream();
 
-        URLConnection connection = new URL(URL[0]).openConnection();
-        connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-        connection.setRequestProperty("Accept-Charset", "utf-8");
-        InputStream response = connection.getInputStream();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(response, "UTF-8"));
+                        line = reader.readLine();
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(response, "UTF-8"));
+                        reader.close();
+                        response.close();
 
-        String line = reader.readLine();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return line;
+                }
+        ).collect(Collectors.toList()).toArray(new String[URL.length]);
 
-        reader.close();
-        response.close();
-
-        return new String[]{line};
     }
 }

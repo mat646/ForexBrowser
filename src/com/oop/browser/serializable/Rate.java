@@ -10,6 +10,7 @@ public class Rate implements Serializable {
     private String ask;
     private String currency;
     private String code;
+    private String mid;
 
     public String getMid() {
         return mid;
@@ -18,8 +19,6 @@ public class Rate implements Serializable {
     public void setMid(String mid) {
         this.mid = mid;
     }
-
-    private String mid;
 
     public String getNo() {
         return no;

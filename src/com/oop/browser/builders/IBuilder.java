@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public interface IBuilder {
 
-    public IBuilder generateURL(String[] options);
+    public IBuilder setURL(String[] options);
 
     public IBuilder sendRequest() throws IOException;
 
