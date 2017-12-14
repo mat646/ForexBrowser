@@ -2,8 +2,10 @@ package com.oop.browser;
 
 import com.oop.browser.subcommands.*;
 import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
-@CommandLine.Command(
+@Command(
         name = "ForexBrowser",
         sortOptions = false,
         optionListHeading = "Options:\n",
@@ -22,10 +24,8 @@ import picocli.CommandLine;
 )
 public class Main implements Runnable{
 
-    @CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "Shows program help.")
+    @Option(names = {"-h", "--help"}, usageHelp = true, description = "Shows program help.")
     private Boolean help;
-
-    private String[] args;
 
     public static void main(String[] args) {
 
@@ -35,6 +35,6 @@ public class Main implements Runnable{
 
     @Override
     public void run() {
-        System.out.println("Done");
+        System.out.println("Void");
     }
 }

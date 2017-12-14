@@ -1,23 +1,30 @@
 package com.oop.browser.managers;
 
+import com.oop.browser.serializable.Gold;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class ActionManager implements IManager {
 
 
-    public static class Avg {
+    public static class GoldAvg {
 
-        int a;
+        static public Double countAvg(ArrayList<Serializable[]> golds) {
 
-        public Avg(){
+            ArrayList<Gold[]> table = golds.stream().map(e -> (Gold[]) e).collect(Collectors.toCollection(ArrayList::new));
 
-        }
+            Double sum = .0;
+            Integer count = 0;
 
-        public Integer countAvg(Serializable serializable) {
+            for (Gold[] tab : table) {
+                count = count + tab.length;
+                for (Gold gold : tab) {
+                    sum = sum + gold.getPrice();
+                }
+            }
 
-            CommandLinePrinter commandLinePrinter = new CommandLinePrinter();
-
-            return 10;
+            return sum/count;
         }
 
     }

@@ -11,7 +11,7 @@ public class TableBuilder implements IBuilder {
 
     public String[] URL;
     public String[] JSON;
-    public Serializable[] serializable;
+    public ArrayList<Serializable[]> serializable;
 
     @Override
     public TableBuilder setURL(String[] urls) {
@@ -27,11 +27,12 @@ public class TableBuilder implements IBuilder {
         return this;
     }
 
-    public Serializable[] buildSerializable(String typeValue) throws IOException {
+    @Override
+    public ArrayList<Serializable[]> buildSerializable(String typeValue) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        ArrayList<Serializable> serializableArrayList = new ArrayList<>();
+        ArrayList<Serializable[]> serializableArrayList = new ArrayList<>();
 
         for (String JSON : JSON) {
             switch (typeValue) {
@@ -42,7 +43,7 @@ public class TableBuilder implements IBuilder {
             }
         }
 
-        serializable = serializableArrayList.toArray(new Serializable[serializableArrayList.size()]);
+        serializable = serializableArrayList;
         return serializable;
     }
 }

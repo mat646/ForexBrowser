@@ -1,14 +1,13 @@
 package com.oop.browser.subcommands;
 
 import com.oop.browser.builders.TableBuilder;
+import com.oop.browser.managers.ActionManager;
 import picocli.CommandLine;
-
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -31,17 +30,21 @@ public class GoldAvgCommand extends Subcommand implements Runnable {
         try {
             TableBuilder tableBuilder = new TableBuilder();
 
-            String readydate = df.format(startDate);
-            String readydate2 = df.format(endDate);
-
+            String formattedStartDate = df.format(startDate);
+            String formattedEndDate = df.format(endDate);
 
             String[] urls = generateURL(startDate, endDate);
 
-            Serializable[] table = tableBuilder
-                    .setURL(urls)
-                    .sendRequest().buildSerializable("Gold");
+            ArrayList<Serializable[]> table = tableBuilder.setURL(urls).sendRequest().buildSerializable("Gold");
 
-            System.out.println("avg " + startDate);
+            Double avg = ActionManager.GoldAvg.countAvg(table);
+
+            DecimalFormat dfe = new DecimalFormat("#.##");
+            dfe.setRoundingMode(RoundingMode.CEILING);
+
+            System.out.println("Average gold price since " + formattedStartDate +
+                    " to " + formattedEndDate + ":\n" + dfe.format(avg));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,7 +72,5 @@ public class GoldAvgCommand extends Subcommand implements Runnable {
         return out.toArray(new String[out.size()]);
 
     }
-
-
 
 }
