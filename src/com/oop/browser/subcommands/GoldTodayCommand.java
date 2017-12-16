@@ -1,6 +1,8 @@
 package com.oop.browser.subcommands;
 
 import com.oop.browser.builders.TableBuilder;
+import com.oop.browser.exceptions.DataNotFoundException;
+import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.serializable.Gold;
 import picocli.CommandLine;
 import java.io.IOException;
@@ -23,6 +25,12 @@ public class GoldTodayCommand extends Subcommand implements Runnable {
             tableBuilder.setURL(url).sendRequest().buildSerializable("Gold");
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InvalidArgumentsException e) {
+            System.out.println("Invalid arguments for gold-today");
+            System.exit(1);
+        } catch (DataNotFoundException e) {
+            System.out.println("No data for gold-today");
+            System.exit(1);
         }
 
         perform();

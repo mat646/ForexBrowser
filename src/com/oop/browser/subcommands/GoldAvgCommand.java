@@ -1,6 +1,8 @@
 package com.oop.browser.subcommands;
 
 import com.oop.browser.builders.TableBuilder;
+import com.oop.browser.exceptions.DataNotFoundException;
+import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.managers.ActionManager;
 import picocli.CommandLine;
 import java.io.IOException;
@@ -40,6 +42,12 @@ public class GoldAvgCommand extends Subcommand implements Runnable {
 
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InvalidArgumentsException e) {
+            System.out.println("Invalid arguments");
+            System.exit(1);
+        } catch (DataNotFoundException e) {
+            System.out.println("No data for that");
+            System.exit(1);
         }
     }
 

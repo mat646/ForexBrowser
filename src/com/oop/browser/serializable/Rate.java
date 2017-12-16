@@ -1,22 +1,25 @@
 package com.oop.browser.serializable;
 
+import com.oop.browser.exceptions.DataNotFoundException;
+
 import java.io.Serializable;
+import java.util.Date;
 
 public class Rate implements Serializable {
 
     private String no;
-    private String effectiveDate;
-    private String bid;
-    private String ask;
+    private Date effectiveDate;
+    private Double bid;
+    private Double ask;
     private String currency;
     private String code;
-    private String mid;
+    private Double mid;
 
-    public String getMid() {
+    public Double getMid() {
         return mid;
     }
 
-    public void setMid(String mid) {
+    public void setMid(Double mid) {
         this.mid = mid;
     }
 
@@ -28,27 +31,27 @@ public class Rate implements Serializable {
         this.no = no;
     }
 
-    public String getEffectiveDate() {
+    public Date getEffectiveDate() {
         return effectiveDate;
     }
 
-    public void setEffectiveDate(String effectiveDate) {
+    public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 
-    public String getBid() {
+    public Double getBid() {
         return bid;
     }
 
-    public void setBid(String bid) {
+    public void setBid(Double bid) {
         this.bid = bid;
     }
 
-    public String getAsk() {
+    public Double getAsk() {
         return ask;
     }
 
-    public void setAsk(String ask) {
+    public void setAsk(Double ask) {
         this.ask = ask;
     }
 

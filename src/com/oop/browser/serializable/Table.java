@@ -1,6 +1,7 @@
 package com.oop.browser.serializable;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Table implements Serializable {
 
@@ -8,8 +9,8 @@ public class Table implements Serializable {
     private String currency;
     private String code;
     private String no;
-    private String tradingDate;
-    private String effectiveDate;
+    private Date tradingDate;
+    private Date effectiveDate;
     private Rate[] rates;
 
     public String getTable() {
@@ -44,19 +45,19 @@ public class Table implements Serializable {
         this.no = no;
     }
 
-    public String getTradingDate() {
+    public Date getTradingDate() {
         return tradingDate;
     }
 
-    public void setTradingDate(String tradingDate) {
+    public void setTradingDate(Date tradingDate) {
         this.tradingDate = tradingDate;
     }
 
-    public String getEffectiveDate() {
+    public Date getEffectiveDate() {
         return effectiveDate;
     }
 
-    public void setEffectiveDate(String effectiveDate) {
+    public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 
