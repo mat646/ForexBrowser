@@ -32,8 +32,8 @@ public class ActionManager implements IManager {
 
     public static class MinExchangeRate {
 
-        public static String count(Table[] tables) {
-            Table table = tables[0];
+        public static String count(ArrayList<Serializable[]> tables) {
+            Table table = ((Table[]) tables.get(0))[0];
 
             Rate minRate = table.getRates()[0];
 
@@ -70,24 +70,27 @@ public class ActionManager implements IManager {
 
     public static class MaxFluctuations {
 
-        public static String count(Table[] tables) {
+        public static String count(ArrayList<Serializable[]> tables) {
+            ArrayList<Table[]> mappedTables = tables.stream().map(e -> (Table[]) e).collect(Collectors.toCollection(ArrayList::new));
+
             Map<String, Double> min = new HashMap<>();
             Map<String, Double> max = new HashMap<>();
 
-            for (Table table : tables) {
+            for (Table[] table : mappedTables) {
+                for (Table tab : table) {
+                    for (Rate rate : tab.getRates()) {
 
-                for (Rate rate : table.getRates()) {
+                        if (min.get(rate.getCode()) == null ||
+                                min.get(rate.getCode()) > rate.getMid()) {
+                            min.put(rate.getCode(), rate.getMid());
+                        }
 
-                    if (min.get(rate.getCode()) == null ||
-                            min.get(rate.getCode()) > rate.getMid()) {
-                        min.put(rate.getCode(), rate.getMid());
+                        if (max.get(rate.getCode()) == null ||
+                                max.get(rate.getCode()) < rate.getMid()) {
+                            max.put(rate.getCode(), rate.getMid());
+                        }
+
                     }
-
-                    if (max.get(rate.getCode()) == null ||
-                            max.get(rate.getCode()) < rate.getMid()) {
-                        max.put(rate.getCode(), rate.getMid());
-                    }
-
                 }
 
             }
@@ -118,19 +121,29 @@ public class ActionManager implements IManager {
 
         public static Rate[] count(Table table, int n) {
 
+            if(n > table.getRates().length) {
+                n = table.getRates().length;
+            }
+
             RateComparator rateComparator = new RateComparator();
             PriorityQueue<Rate> queue =
                     new PriorityQueue<>(rateComparator);
 
             queue.addAll(Arrays.asList(table.getRates()));
 
-            return queue.toArray(new Rate[n]);
+            ArrayList<Rate> out = new ArrayList<>();
+
+            for (int i=0; i<n; i++) {
+                out.add(queue.poll());
+            }
+
+            return out.toArray(new Rate[n]);
         }
 
         private static class RateComparator implements Comparator<Rate> {
             @Override
             public int compare(Rate x, Rate y) {
-                return Double.compare(x.getAsk() - x.getBid(), y.getAsk() - y.getBid());
+                return Double.compare(y.getAsk() - y.getBid(), x.getAsk() - x.getBid());
             }
         }
 

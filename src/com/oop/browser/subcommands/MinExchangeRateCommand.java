@@ -3,9 +3,12 @@ package com.oop.browser.subcommands;
 import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
+import com.oop.browser.managers.ActionManager;
+import com.oop.browser.serializable.Table;
 import picocli.CommandLine;
-
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 @CommandLine.Command(
@@ -21,11 +24,11 @@ public class MinExchangeRateCommand extends Subcommand implements Runnable {
 
     @Override
     public void run() {
-
         String[] url = generateURL(date);
 
         try {
-            tableBuilder.setURL(url).sendRequest().buildSerializable("Table");
+            ArrayList<Serializable[]> table = tableBuilder.setURL(url).sendRequest().buildSerializable("Table");
+            perform(table);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InvalidArgumentsException e) {
@@ -35,17 +38,16 @@ public class MinExchangeRateCommand extends Subcommand implements Runnable {
             System.out.println("No data for that ");
             System.exit(1);
         }
-
-        perform();
     }
-
 
     public String[] generateURL(Date date) {
         return new String[]{"http://api.nbp.pl/api/exchangerates/tables/c/" + df.format(date) + "/?format=json"};
     }
 
-    public void perform() {
+    public void perform(ArrayList<Serializable[]> tables) {
+        String label = ActionManager.MinExchangeRate.count(tables);
 
+        System.out.println(label);
     }
 
 }

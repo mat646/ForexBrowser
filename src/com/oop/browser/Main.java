@@ -5,6 +5,8 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
+import java.awt.*;
+
 @Command(
         name = "ForexBrowser",
         sortOptions = false,
@@ -35,6 +37,16 @@ public class Main implements Runnable{
 
     @Override
     public void run() {
-        System.out.println("Type -h or --help for instructions");
+
+        System.out.print("\033[0;37m" +
+                " _______                     ______                                    \n" +
+                "(_______)                   (____  \\                                   \n" +
+                " _____ ___   ____ ____ _   _ ____)  ) ____ ___  _ _ _  ___  ____  ____ \n" +
+                "|  ___) _ \\ / ___) _  | \\ / )  __  ( / ___) _ \\| | | |/___)/ _  )/ ___)\n" +
+                "| |  | |_| | |  ( (/ / ) X (| |__)  ) |  | |_| | | | |___ ( (/ /| |    \n" +
+                "|_|   \\___/|_|   \\____|_/ \\_)______/|_|   \\___/ \\____(___/ \\____)_|    \n" +
+                "                                                                       \n" +
+                "\n" + "\033[0m");
+        System.out.println("Type -h or --help for instructions\n");
     }
 }
