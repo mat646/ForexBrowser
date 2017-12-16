@@ -16,6 +16,8 @@ public class MinMaxExchangeRateCommand extends Subcommand implements Runnable {
     @Override
     public void run() {
 
+
+
     }
 
     public String[] generateURL(Date date) {

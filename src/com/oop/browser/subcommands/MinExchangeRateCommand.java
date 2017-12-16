@@ -4,7 +4,6 @@ import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.managers.ActionManager;
-import com.oop.browser.serializable.Table;
 import picocli.CommandLine;
 import java.io.IOException;
 import java.io.Serializable;
@@ -27,7 +26,7 @@ public class MinExchangeRateCommand extends Subcommand implements Runnable {
         String[] url = generateURL(date);
 
         try {
-            ArrayList<Serializable[]> table = tableBuilder.setURL(url).sendRequest().buildSerializable("Table");
+            ArrayList<Serializable[]> table = tableBuilder.setURL(url).sendRequest().buildSerializable("Tables");
             perform(table);
         } catch (IOException e) {
             e.printStackTrace();
