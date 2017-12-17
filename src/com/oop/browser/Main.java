@@ -5,8 +5,6 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-import java.awt.*;
-
 @Command(
         name = "ForexBrowser",
         sortOptions = false,
@@ -26,7 +24,7 @@ import java.awt.*;
 )
 public class Main implements Runnable{
 
-    @Option(names = {"-h", "--help"}, usageHelp = true, description = "Shows program help.")
+    @Option(names = {"-h", "--help"}, usageHelp = true, description = "Shows program help")
     private Boolean help;
 
     public static void main(String[] args) {

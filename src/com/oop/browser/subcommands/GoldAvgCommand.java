@@ -4,7 +4,8 @@ import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.managers.ActionManager;
-import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.RoundingMode;
@@ -13,17 +14,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-@CommandLine.Command(
-        name = "gold-avg"
+@Command(
+        name = "gold-avg",
+        description = "Average gold price for period"
 )
 public class GoldAvgCommand extends Subcommand implements Runnable {
 
-    @CommandLine.Parameters(index = "0", arity = "1", paramLabel = "START_END",
-            description = "Start startDate for computing")
+    @Parameters(index = "0", arity = "1", paramLabel = "START_END",
+            description = "Beginning date of period")
     private Date startDate;
 
-    @CommandLine.Parameters(index = "1", arity = "1", paramLabel = "END_DATE",
-            description = "Start endDate for computing")
+    @Parameters(index = "1", arity = "1", paramLabel = "END_DATE",
+            description = "Ending date of period")
     private Date endDate;
 
     private TableBuilder tableBuilder = new TableBuilder();

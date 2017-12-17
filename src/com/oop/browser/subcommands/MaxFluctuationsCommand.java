@@ -4,8 +4,8 @@ import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.managers.ActionManager;
-import com.oop.browser.serializable.Table;
-import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,13 +13,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-@CommandLine.Command(
-        name = "max-fluctuations"
+@Command(
+        name = "max-fluctuations",
+        description = "Shows currency which has had greatest fluctuations since given date"
 )
 public class MaxFluctuationsCommand extends Subcommand implements Runnable {
 
-    @CommandLine.Parameters(index = "0", arity = "1", paramLabel = "DATE",
-            description = "Start date for currency")
+    @Parameters(index = "0", arity = "1", paramLabel = "DATE",
+            description = "Start date for fluctuations period")
     private Date date;
 
     private TableBuilder tableBuilder = new TableBuilder();

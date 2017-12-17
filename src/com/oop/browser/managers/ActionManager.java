@@ -50,16 +50,20 @@ public class ActionManager implements IManager {
 
     public static class MinMaxExchangeRate {
 
-        public static Rate[] count(Table table, String symbol) {
-            Rate minRate = table.getRates()[0];
-            Rate maxRate = table.getRates()[0];
+        public static Rate[] count(ArrayList<Serializable[]> tables, String symbol) {
+            ArrayList<Table> mappedTables = tables.stream().map(e -> (Table) e[0]).collect(Collectors.toCollection(ArrayList::new));
 
-            for (Rate rate : table.getRates()) {
-                if (rate.getMid() < minRate.getMid()) {
-                    minRate = rate;
-                }
-                if (rate.getMid() > maxRate.getMid()) {
-                    maxRate = rate;
+            Rate minRate = mappedTables.get(0).getRates()[0];
+            Rate maxRate = mappedTables.get(0).getRates()[0];
+
+            for (Table table : mappedTables) {
+                for (Rate rate : table.getRates()) {
+                    if (rate.getMid() < minRate.getMid()) {
+                        minRate = rate;
+                    }
+                    if (rate.getMid() > maxRate.getMid()) {
+                        maxRate = rate;
+                    }
                 }
             }
 
@@ -145,14 +149,6 @@ public class ActionManager implements IManager {
             public int compare(Rate x, Rate y) {
                 return Double.compare(y.getAsk() - y.getBid(), x.getAsk() - x.getBid());
             }
-        }
-
-    }
-
-    public static class RateChart {
-
-        public void count(Table[] tables) {
-
         }
 
     }

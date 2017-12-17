@@ -1,7 +1,5 @@
 package com.oop.browser.serializable;
 
-import com.oop.browser.exceptions.DataNotFoundException;
-
 import java.io.Serializable;
 import java.util.Date;
 

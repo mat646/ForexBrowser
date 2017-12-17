@@ -4,20 +4,22 @@ import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.serializable.Table;
-import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 import java.io.IOException;
 import java.util.Date;
 
-@CommandLine.Command(
-        name = "currency"
+@Command(
+        name = "currency",
+        description = "Shows currency price for given day"
 )
 public class CurrencyCommand extends Subcommand implements Runnable {
 
-    @CommandLine.Parameters(index = "0", arity = "1", paramLabel = "SYMBOL",
-            description = "symbol")
+    @Parameters(index = "0", arity = "1", paramLabel = "SYMBOL",
+            description = "currency symbol")
     private String symbol;
 
-    @CommandLine.Parameters(index = "1", arity = "1", paramLabel = "DATE",
+    @Parameters(index = "1", arity = "1", paramLabel = "DATE",
             description = "date")
     private Date date;
 

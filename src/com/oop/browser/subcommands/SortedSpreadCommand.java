@@ -6,7 +6,8 @@ import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.managers.ActionManager;
 import com.oop.browser.serializable.Rate;
 import com.oop.browser.serializable.Table;
-import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.RoundingMode;
@@ -15,16 +16,17 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Date;
 
-@CommandLine.Command(
-        name = "sorted-spread"
+@Command(
+        name = "sorted-spread",
+        description = "Prints n currencies sorted by spread for given date"
 )
 public class SortedSpreadCommand extends Subcommand implements Runnable {
 
-    @CommandLine.Parameters(index = "0", arity = "1", paramLabel = "DATE",
+    @Parameters(index = "0", arity = "1", paramLabel = "DATE",
             description = "Date for spread count")
     private Date date;
 
-    @CommandLine.Parameters(index = "1", arity = "1", paramLabel = "N",
+    @Parameters(index = "1", arity = "1", paramLabel = "N",
             description = "Amount of head results")
     private int n;
 

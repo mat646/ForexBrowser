@@ -5,8 +5,8 @@ import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.serializable.Rate;
 import com.oop.browser.serializable.Table;
-import picocli.CommandLine;
-
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,21 +14,22 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@CommandLine.Command(
-        name = "rate-chart"
+@Command(
+        name = "rate-chart",
+        description = "Draws rate chart for given currency and period"
 )
 public class RateChartCommand extends Subcommand implements Runnable {
 
-    @CommandLine.Parameters(index = "0", arity = "1", paramLabel = "SYMBOL",
-            description = "symbol")
+    @Parameters(index = "0", arity = "1", paramLabel = "SYMBOL",
+            description = "currency symbol")
     private String symbol;
 
-    @CommandLine.Parameters(index = "1", arity = "1", paramLabel = "START_DATE",
-            description = "date")
+    @Parameters(index = "1", arity = "1", paramLabel = "START_DATE",
+            description = "start date")
     private Date startDate;
 
-    @CommandLine.Parameters(index = "2", arity = "1", paramLabel = "END_DATE",
-            description = "date")
+    @Parameters(index = "2", arity = "1", paramLabel = "END_DATE",
+            description = "end date")
     private Date endDate;
 
     private TableBuilder tableBuilder = new TableBuilder();

@@ -4,18 +4,20 @@ import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.managers.ActionManager;
-import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-@CommandLine.Command(
-        name = "min-exchange-rate"
+@Command(
+        name = "min-exchange-rate",
+        description = "Shows currency with smallest bid rate on given day"
 )
 public class MinExchangeRateCommand extends Subcommand implements Runnable {
 
-    @CommandLine.Parameters(index = "0", arity = "1", paramLabel = "DATE",
+    @Parameters(index = "0", arity = "1", paramLabel = "DATE",
             description = "date")
     private Date date;
 

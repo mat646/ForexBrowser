@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Command(
         name = "gold",
-        description = "Shows gold price in given name"
+        description = "Shows gold price in given day"
 )
 public class GoldCommand extends Subcommand implements Runnable {
 

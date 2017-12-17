@@ -4,11 +4,11 @@ import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.serializable.Gold;
-import picocli.CommandLine;
+import picocli.CommandLine.Command;
 import java.io.IOException;
 import java.util.Calendar;
 
-@CommandLine.Command(
+@Command(
         name = "gold-today",
         description = "Shows gold price for today"
 )
