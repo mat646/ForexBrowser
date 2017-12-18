@@ -6,7 +6,6 @@ import com.oop.browser.managers.ActionManager;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,7 +15,7 @@ import java.util.concurrent.TimeUnit;
         name = "max-fluctuations",
         description = "Shows currency which has had greatest fluctuations since given date"
 )
-public class MaxFluctuationsCommand extends Subcommand implements Runnable {
+public class MaxFluctuationsCommand extends AbstractCommand implements Runnable {
 
     @Parameters(index = "0", arity = "1", paramLabel = "DATE",
             description = "Start date for fluctuations period")
@@ -27,47 +26,36 @@ public class MaxFluctuationsCommand extends Subcommand implements Runnable {
     @Override
     public void run() {
         String[] urls = generateURL();
-
-        try {
-            ArrayList<Serializable[]> table = tableBuilder.setURL(urls).sendRequest().buildSerializable("Tables");
-            perform(table, date);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidArgumentsException e) {
-            System.out.println("Invalid arg");
-            System.exit(1);
-        } catch (DataNotFoundException e) {
-            System.out.println("No data for t");
-            System.exit(1);
-        }
-
+        executeBuilder(urls, "Tables");
+        perform();
     }
 
+    @Override
     String[] generateURL() {
         ArrayList<String> out = new ArrayList<>();
-        Date tempdate = new Date();
-        tempdate.setTime(date.getTime());
+        Date tempDate = new Date();
+        tempDate.setTime(date.getTime());
 
-        while(getDateDiff(tempdate, today, TimeUnit.DAYS) > 90) {
+        while(getDateDiff(tempDate, today, TimeUnit.DAYS) > 90) {
 
-            Date tempDate2 = getAddDay(tempdate, 90);
+            Date tempDate2 = getAddDay(tempDate, 90);
 
-            out.add("http://api.nbp.pl/api/exchangerates/tables/a/" + df.format(tempdate) + "/" + df.format(tempDate2) + "/?format=json");
+            out.add("http://api.nbp.pl/api/exchangerates/tables/a/" + df.format(tempDate) + "/" + df.format(tempDate2) + "/?format=json");
 
-            tempdate.setTime(tempDate2.getTime());
+            tempDate.setTime(tempDate2.getTime());
         }
 
-        Date tempdate2 = getAddDay(tempdate, getDateDiff(tempdate, today, TimeUnit.DAYS));
-        out.add("http://api.nbp.pl/api/exchangerates/tables/a/" + df.format(tempdate) + "/" + df.format(tempdate2) + "/?format=json");
+        Date tempdate2 = getAddDay(tempDate, getDateDiff(tempDate, today, TimeUnit.DAYS));
+        out.add("http://api.nbp.pl/api/exchangerates/tables/a/" + df.format(tempDate) + "/" + df.format(tempdate2) + "/?format=json");
 
         return out.toArray(new String[out.size()]);
     }
 
-    private void perform(ArrayList<Serializable[]> tables, Date since) {
+    @Override
+    void perform() {
 
-        String symbol = ActionManager.MaxFluctuations.count(tables);
-        System.out.println(symbol + " since " + df.format(since));
+        String symbol = ActionManager.MaxFluctuations.count(tableBuilder.serializable);
+        System.out.println(symbol + " since " + df.format(date));
     }
 
 }

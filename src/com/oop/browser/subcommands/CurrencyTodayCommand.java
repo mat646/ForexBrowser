@@ -12,7 +12,7 @@ import java.util.Calendar;
         name = "currency-today",
         description = "Shows currency price for today"
 )
-public class CurrencyTodayCommand extends Subcommand implements Runnable {
+public class CurrencyTodayCommand extends AbstractCommand implements Runnable {
 
     @Parameters(index = "0", arity = "1", paramLabel = "SYMBOL",
             description = "currency symbol")
@@ -20,28 +20,18 @@ public class CurrencyTodayCommand extends Subcommand implements Runnable {
 
     @Override
     public void run() {
-        String[] url = generateURL();
-
-        try {
-            tableBuilder.setURL(url).sendRequest().buildSerializable("Table");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidArgumentsException e) {
-            System.out.println("Invalid arguments for currency-today");
-            System.exit(1);
-        } catch (DataNotFoundException e) {
-            System.out.println("No data for currency-today");
-            System.exit(1);
-        }
-
+        String[] urls = generateURL();
+        executeBuilder(urls, "Table");
         perform();
     }
 
+    @Override
     String[] generateURL() {
         return new String[]{"http://api.nbp.pl/api/exchangerates/rates/a/" + symbol + "/?format=json"};
     }
 
-    private void perform() {
+    @Override
+    void perform() {
         System.out.println(symbol.toUpperCase() + " price on " + df.format(Calendar.getInstance().getTime()) + ":");
         System.out.println(((Table[])tableBuilder.serializable.get(0))[0].getRates()[0].getMid());
     }

@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 
 public class ActionManager implements IManager {
 
-    public static class GoldAvg {
+    public static class GoldAverage {
 
-        public static Double countAvg(ArrayList<Serializable[]> golds) {
+        public static Double count(ArrayList<Serializable[]> golds) {
             ArrayList<Gold[]> table = golds.stream().map(e -> (Gold[]) e).collect(Collectors.toCollection(ArrayList::new));
 
             Double sum = .0;
@@ -19,6 +19,7 @@ public class ActionManager implements IManager {
 
             for (Gold[] tab : table) {
                 count = count + tab.length;
+
                 for (Gold gold : tab) {
                     sum = sum + gold.getPrice();
                 }
@@ -49,7 +50,7 @@ public class ActionManager implements IManager {
 
     public static class MinMaxExchangeRate {
 
-        public static Rate[] count(ArrayList<Serializable[]> tables, String symbol) {
+        public static Rate[] count(ArrayList<Serializable[]> tables) {
             ArrayList<Table> mappedTables = tables.stream().map(e -> (Table) e[0]).collect(Collectors.toCollection(ArrayList::new));
 
             Rate minRate = mappedTables.get(0).getRates()[0];

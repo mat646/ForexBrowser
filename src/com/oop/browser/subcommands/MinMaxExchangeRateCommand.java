@@ -1,13 +1,9 @@
 package com.oop.browser.subcommands;
 
-import com.oop.browser.exceptions.DataNotFoundException;
-import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.managers.ActionManager;
 import com.oop.browser.serializable.Rate;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,7 +13,7 @@ import java.util.concurrent.TimeUnit;
         name = "min-max-exchange-rate",
         description = "For given currency shows day with lowest and highest mid rate"
 )
-public class MinMaxExchangeRateCommand extends Subcommand implements Runnable {
+public class MinMaxExchangeRateCommand extends AbstractCommand implements Runnable {
 
     @Parameters(index = "0", arity = "1", paramLabel = "SYMBOL",
             description = "currency symbol")
@@ -27,25 +23,12 @@ public class MinMaxExchangeRateCommand extends Subcommand implements Runnable {
 
     @Override
     public void run() {
-
         String[] urls = generateURL();
-
-        try {
-            ArrayList<Serializable[]> table = tableBuilder.setURL(urls).sendRequest().buildSerializable("Table");
-            perform(table);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidArgumentsException e) {
-            System.out.println("Invalid arguments ");
-            System.exit(1);
-        } catch (DataNotFoundException e) {
-            System.out.println("No data for that ");
-            System.exit(1);
-        }
-
-
+        executeBuilder(urls, "Table");
+        perform();
     }
 
+    @Override
     public String[] generateURL() {
 
         ArrayList<String> out = new ArrayList<>();
@@ -67,11 +50,12 @@ public class MinMaxExchangeRateCommand extends Subcommand implements Runnable {
         out.add("http://api.nbp.pl/api/exchangerates/rates/a/"  + symbol + "/" + df.format(tempdate) +  "/" + df.format(tempdate2) + "/?format=json");
 
         return out.toArray(new String[out.size()]);
-        }
+    }
 
-    public void perform(ArrayList<Serializable[]> tables) {
+    @Override
+    void perform() {
 
-        Rate[] result = ActionManager.MinMaxExchangeRate.count(tables, symbol);
+        Rate[] result = ActionManager.MinMaxExchangeRate.count(tableBuilder.serializable);
 
         System.out.println("For " + symbol.toUpperCase() + ":");
         System.out.println("Minimal rate on: " + df.format(result[0].getEffectiveDate()));

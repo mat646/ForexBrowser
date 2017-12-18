@@ -1,13 +1,9 @@
 package com.oop.browser.subcommands;
 
-import com.oop.browser.exceptions.DataNotFoundException;
-import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.serializable.Rate;
 import com.oop.browser.serializable.Table;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +13,7 @@ import java.util.stream.Collectors;
         name = "rate-chart",
         description = "Draws rate chart for given currency and period"
 )
-public class RateChartCommand extends Subcommand implements Runnable {
+public class RateChartCommand extends AbstractCommand implements Runnable {
 
     @Parameters(index = "0", arity = "1", paramLabel = "SYMBOL",
             description = "currency symbol")
@@ -33,23 +29,9 @@ public class RateChartCommand extends Subcommand implements Runnable {
 
     @Override
     public void run() {
-
         String[] urls = generateURL();
-
-        try {
-            ArrayList<Serializable[]> table = tableBuilder.setURL(urls).sendRequest().buildSerializable("Table");
-            perform(table);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidArgumentsException e) {
-            System.out.println("Invalid arg chart");
-            System.exit(1);
-        } catch (DataNotFoundException e) {
-            System.out.println("No data for chart");
-            System.exit(1);
-        }
-
+        executeBuilder(urls, "Table");
+        perform();
     }
 
     @Override
@@ -74,8 +56,9 @@ public class RateChartCommand extends Subcommand implements Runnable {
         return out.toArray(new String[out.size()]);
     }
 
-    void perform(ArrayList<Serializable[]> tables) {
-        ArrayList<Table[]> mappedTables = tables.stream().map(e -> (Table[]) e).collect(Collectors.toCollection(ArrayList::new));
+    @Override
+    void perform() {
+        ArrayList<Table[]> mappedTables = tableBuilder.serializable.stream().map(e -> (Table[]) e).collect(Collectors.toCollection(ArrayList::new));
 
         for (Table[] table : mappedTables) {
             Table t1 = table[0];
@@ -91,8 +74,6 @@ public class RateChartCommand extends Subcommand implements Runnable {
                 }
 
                 System.out.print("\n");
-
-
             }
         }
 

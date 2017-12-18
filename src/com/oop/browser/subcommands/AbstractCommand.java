@@ -1,13 +1,16 @@
 package com.oop.browser.subcommands;
 
 import com.oop.browser.builders.TableBuilder;
+import com.oop.browser.exceptions.DataNotFoundException;
+import com.oop.browser.exceptions.InvalidArgumentsException;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public abstract class Subcommand {
+public abstract class AbstractCommand {
 
     public static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -25,6 +28,12 @@ public abstract class Subcommand {
         return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
     }
 
+    /**
+     *
+     * @param date1
+     * @param days
+     * @return
+     */
     public static Date getAddDay(Date date1, long days) {
         Calendar c = Calendar.getInstance();
         c.setTime(date1);
@@ -32,6 +41,26 @@ public abstract class Subcommand {
         return c.getTime();
     }
 
+    /**
+     *
+     * @return
+     */
     abstract String[] generateURL();
+
+    void executeBuilder(String[] urls, String typeValue) {
+        try {
+            tableBuilder.setURL(urls).sendRequest().buildSerializable(typeValue);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidArgumentsException e) {
+            System.out.println("Invalid arguments");
+            System.exit(1);
+        } catch (DataNotFoundException e) {
+            System.out.println("No data for such arguments");
+            System.exit(1);
+        }
+    }
+
+    abstract void perform();
 
 }
