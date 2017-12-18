@@ -1,6 +1,5 @@
 package com.oop.browser.subcommands;
 
-import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.managers.ActionManager;
@@ -23,8 +22,6 @@ public class MinMaxExchangeRateCommand extends Subcommand implements Runnable {
     @Parameters(index = "0", arity = "1", paramLabel = "SYMBOL",
             description = "currency symbol")
     private String symbol;
-
-    private TableBuilder tableBuilder = new TableBuilder();
 
     private Date today = Calendar.getInstance().getTime();
 

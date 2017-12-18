@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 public class ActionManager implements IManager {
 
-
     public static class GoldAvg {
 
         public static Double countAvg(ArrayList<Serializable[]> golds) {

@@ -1,6 +1,5 @@
 package com.oop.browser.subcommands;
 
-import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.managers.ActionManager;
@@ -30,8 +29,6 @@ public class SortedSpreadCommand extends Subcommand implements Runnable {
             description = "Amount of head results")
     private int n;
 
-    private TableBuilder tableBuilder = new TableBuilder();
-
     @Override
     public void run() {
 
@@ -40,7 +37,7 @@ public class SortedSpreadCommand extends Subcommand implements Runnable {
             System.exit(1);
         }
 
-        String[] url = generateURL(date);
+        String[] url = generateURL();
 
         try {
             ArrayList<Serializable[]> table = tableBuilder.setURL(url).sendRequest().buildSerializable("Tables");
@@ -57,17 +54,17 @@ public class SortedSpreadCommand extends Subcommand implements Runnable {
 
     }
 
-    public String[] generateURL(Date date) {
+    public String[] generateURL() {
         return new String[]{"http://api.nbp.pl/api/exchangerates/tables/c/" + df.format(date) + "/?format=json"};
     }
 
     public void perform(ArrayList<Serializable[]> tables) {
         Rate[] rates = ActionManager.SortedSpread.count((Table) tables.get(0)[0], n);
 
-        DecimalFormatSymbols xd = new DecimalFormatSymbols();
-        xd.setDecimalSeparator('.');
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
 
-        DecimalFormat dfe = new DecimalFormat("#.###", xd);
+        DecimalFormat dfe = new DecimalFormat("#.###", symbols);
         dfe.setRoundingMode(RoundingMode.CEILING);
 
         for(Rate rate : rates) {

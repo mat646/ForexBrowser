@@ -1,6 +1,5 @@
 package com.oop.browser.subcommands;
 
-import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.managers.ActionManager;
@@ -28,15 +27,13 @@ public class GoldAvgCommand extends Subcommand implements Runnable {
             description = "Ending date of period")
     private Date endDate;
 
-    private TableBuilder tableBuilder = new TableBuilder();
-
     @Override
     public void run() {
 
             String formattedStartDate = df.format(startDate);
             String formattedEndDate = df.format(endDate);
 
-            String[] urls = generateURL(startDate, endDate);
+            String[] urls = generateURL();
 
         try {
             ArrayList<Serializable[]> table = tableBuilder.setURL(urls).sendRequest().buildSerializable("Gold");
@@ -53,13 +50,13 @@ public class GoldAvgCommand extends Subcommand implements Runnable {
         }
     }
 
-    public static String[] generateURL(Date date1, Date date2) {
+    String[] generateURL() {
 
         ArrayList<String> out = new ArrayList<>();
         Date tempdate = new Date();
-        tempdate.setTime(date1.getTime());
+        tempdate.setTime(startDate.getTime());
 
-        while(getDateDiff(tempdate, date2, TimeUnit.DAYS) > 90) {
+        while(getDateDiff(tempdate, endDate, TimeUnit.DAYS) > 90) {
 
             Date tempDate2 = getAddDay(tempdate, 90);
 
@@ -69,7 +66,7 @@ public class GoldAvgCommand extends Subcommand implements Runnable {
 
         }
 
-        Date tempdate2 = getAddDay(tempdate, getDateDiff(tempdate, date2, TimeUnit.DAYS));
+        Date tempdate2 = getAddDay(tempdate, getDateDiff(tempdate, endDate, TimeUnit.DAYS));
         out.add("http://api.nbp.pl/api/cenyzlota/" + df.format(tempdate) + "/" + df.format(tempdate2) + "/?format=json");
 
         return out.toArray(new String[out.size()]);

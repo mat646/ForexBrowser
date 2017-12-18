@@ -1,6 +1,5 @@
 package com.oop.browser.subcommands;
 
-import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.serializable.Gold;
@@ -19,12 +18,10 @@ public class GoldCommand extends Subcommand implements Runnable {
             description = "Date for gold price")
     private Date date;
 
-    private TableBuilder tableBuilder = new TableBuilder();
-
     @Override
     public void run() {
 
-        String[] url = generateURL(date);
+        String[] url = generateURL();
 
         try {
             tableBuilder.setURL(url).sendRequest().buildSerializable("Gold");
@@ -41,7 +38,7 @@ public class GoldCommand extends Subcommand implements Runnable {
         perform();
     }
 
-    private String[] generateURL(Date date) {
+    String[] generateURL() {
         return new String[]{"http://api.nbp.pl/api/cenyzlota/" + df.format(date) + "/?format=json"};
     }
 

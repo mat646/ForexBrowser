@@ -1,6 +1,5 @@
 package com.oop.browser.subcommands;
 
-import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.serializable.Table;
@@ -23,13 +22,10 @@ public class CurrencyCommand extends Subcommand implements Runnable {
             description = "date")
     private Date date;
 
-    private TableBuilder tableBuilder = new TableBuilder();
-
     @Override
     public void run() {
 
-
-        String[] url = generateURL(date);
+        String[] url = generateURL();
 
         try {
             tableBuilder.setURL(url).sendRequest().buildSerializable("Table");
@@ -44,17 +40,16 @@ public class CurrencyCommand extends Subcommand implements Runnable {
         }
 
         perform();
-
     }
 
-    private String[] generateURL(Date date) {
-        return new String[]{"http://api.nbp.pl/api/exchangerates/rates/a/" + symbol + "/" + df.format(date) + "/?format=json"};
+    String[] generateURL() {
+        return new String[]{"http://api.nbp.pl/api/exchangerates/rates/a/" + symbol +
+                "/" + df.format(date) + "/?format=json"};
     }
 
     private void perform() {
         System.out.println(symbol.toUpperCase() + " price on " + df.format(date) + ":");
         System.out.println(((Table[])tableBuilder.serializable.get(0))[0].getRates()[0].getMid());
     }
-
 
 }

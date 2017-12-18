@@ -1,6 +1,5 @@
 package com.oop.browser.subcommands;
 
-import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.managers.ActionManager;
@@ -21,11 +20,9 @@ public class MinExchangeRateCommand extends Subcommand implements Runnable {
             description = "date")
     private Date date;
 
-    private TableBuilder tableBuilder = new TableBuilder();
-
     @Override
     public void run() {
-        String[] url = generateURL(date);
+        String[] url = generateURL();
 
         try {
             ArrayList<Serializable[]> table = tableBuilder.setURL(url).sendRequest().buildSerializable("Tables");
@@ -41,7 +38,7 @@ public class MinExchangeRateCommand extends Subcommand implements Runnable {
         }
     }
 
-    public String[] generateURL(Date date) {
+    public String[] generateURL() {
         return new String[]{"http://api.nbp.pl/api/exchangerates/tables/c/" + df.format(date) + "/?format=json"};
     }
 

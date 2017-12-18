@@ -1,5 +1,6 @@
 package com.oop.browser.subcommands;
 
+import com.oop.browser.builders.TableBuilder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 public abstract class Subcommand {
 
     public static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+    protected TableBuilder tableBuilder = new TableBuilder();
 
     /**
      * Get a diff between two dates
@@ -28,5 +31,7 @@ public abstract class Subcommand {
         c.add(Calendar.DATE, (int) days);  // number of days to add
         return c.getTime();
     }
+
+    abstract String[] generateURL();
 
 }

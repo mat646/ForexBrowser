@@ -1,6 +1,5 @@
 package com.oop.browser.subcommands;
 
-import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.serializable.Rate;
@@ -32,8 +31,6 @@ public class RateChartCommand extends Subcommand implements Runnable {
             description = "end date")
     private Date endDate;
 
-    private TableBuilder tableBuilder = new TableBuilder();
-
     @Override
     public void run() {
 
@@ -55,6 +52,7 @@ public class RateChartCommand extends Subcommand implements Runnable {
 
     }
 
+    @Override
     String[] generateURL() {
 
         ArrayList<String> out = new ArrayList<>();

@@ -1,6 +1,5 @@
 package com.oop.browser.subcommands;
 
-import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.serializable.Gold;
@@ -13,8 +12,6 @@ import java.util.Calendar;
         description = "Shows gold price for today"
 )
 public class GoldTodayCommand extends Subcommand implements Runnable {
-
-    private TableBuilder tableBuilder = new TableBuilder();
 
     @Override
     public void run() {
@@ -36,7 +33,7 @@ public class GoldTodayCommand extends Subcommand implements Runnable {
         perform();
     }
 
-    private String[] generateURL() {
+    String[] generateURL() {
         return new String[]{"http://api.nbp.pl/api/cenyzlota/?format=json"};
     }
 

@@ -1,6 +1,5 @@
 package com.oop.browser.subcommands;
 
-import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.serializable.Table;
@@ -18,8 +17,6 @@ public class CurrencyTodayCommand extends Subcommand implements Runnable {
     @Parameters(index = "0", arity = "1", paramLabel = "SYMBOL",
             description = "currency symbol")
     private String symbol;
-
-    private TableBuilder tableBuilder = new TableBuilder();
 
     @Override
     public void run() {
@@ -40,7 +37,7 @@ public class CurrencyTodayCommand extends Subcommand implements Runnable {
         perform();
     }
 
-    private String[] generateURL() {
+    String[] generateURL() {
         return new String[]{"http://api.nbp.pl/api/exchangerates/rates/a/" + symbol + "/?format=json"};
     }
 

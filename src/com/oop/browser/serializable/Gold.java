@@ -6,7 +6,6 @@ import java.util.Date;
 
 public class Gold implements Serializable {
 
-
     private Date date;
     private Double price;
 

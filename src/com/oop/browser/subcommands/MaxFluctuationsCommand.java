@@ -1,6 +1,5 @@
 package com.oop.browser.subcommands;
 
-import com.oop.browser.builders.TableBuilder;
 import com.oop.browser.exceptions.DataNotFoundException;
 import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.managers.ActionManager;
@@ -23,13 +22,11 @@ public class MaxFluctuationsCommand extends Subcommand implements Runnable {
             description = "Start date for fluctuations period")
     private Date date;
 
-    private TableBuilder tableBuilder = new TableBuilder();
-
     private Date today = Calendar.getInstance().getTime();
 
     @Override
     public void run() {
-        String[] urls = generateURL(date);
+        String[] urls = generateURL();
 
         try {
             ArrayList<Serializable[]> table = tableBuilder.setURL(urls).sendRequest().buildSerializable("Tables");
@@ -47,7 +44,7 @@ public class MaxFluctuationsCommand extends Subcommand implements Runnable {
 
     }
 
-    private String[] generateURL(Date date) {
+    String[] generateURL() {
         ArrayList<String> out = new ArrayList<>();
         Date tempdate = new Date();
         tempdate.setTime(date.getTime());
