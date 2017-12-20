@@ -1,11 +1,8 @@
 package com.oop.browser.subcommands;
 
-import com.oop.browser.exceptions.DataNotFoundException;
-import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.serializable.Table;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
-import java.io.IOException;
 import java.util.Calendar;
 
 @Command(

@@ -2,6 +2,13 @@ package com.oop.browser.subcommands;
 
 import com.oop.browser.serializable.Rate;
 import com.oop.browser.serializable.Table;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.stage.Stage;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 import java.util.ArrayList;
@@ -17,15 +24,15 @@ public class RateChartCommand extends AbstractCommand implements Runnable {
 
     @Parameters(index = "0", arity = "1", paramLabel = "SYMBOL",
             description = "currency symbol")
-    private String symbol;
+    String symbol;
 
     @Parameters(index = "1", arity = "1", paramLabel = "START_DATE",
             description = "start date")
-    private Date startDate;
+    Date startDate;
 
     @Parameters(index = "2", arity = "1", paramLabel = "END_DATE",
             description = "end date")
-    private Date endDate;
+    Date endDate;
 
     @Override
     public void run() {

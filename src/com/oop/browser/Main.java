@@ -19,7 +19,8 @@ import picocli.CommandLine.Option;
                 MinExchangeRateCommand.class,
                 MinMaxExchangeRateCommand.class,
                 RateChartCommand.class,
-                SortedSpreadCommand.class
+                SortedSpreadCommand.class,
+                RateChartGUICommand.class
         }
 )
 public class Main implements Runnable{
