@@ -13,7 +13,7 @@ public class GoldCommand extends AbstractCommand implements Runnable {
 
     @Parameters(index = "0", arity = "1", paramLabel = "DATE",
             description = "Date for gold price")
-    private Date date;
+    Date date;
 
     @Override
     public void run() {

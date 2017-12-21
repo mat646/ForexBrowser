@@ -12,6 +12,14 @@ import java.util.ArrayList;
 
 public class NBPWebAPIClient {
 
+    /**
+     *
+     * @param URLs
+     * @return
+     * @throws InvalidArgumentsException
+     * @throws DataNotFoundException
+     * @throws IOException
+     */
     public String[] sendRequest(String[] URLs) throws InvalidArgumentsException, DataNotFoundException, IOException {
 
         ArrayList<String> out = new ArrayList<>();

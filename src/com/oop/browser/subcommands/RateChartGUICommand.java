@@ -47,8 +47,7 @@ public class RateChartGUICommand extends Application implements Runnable{
         stage.setTitle("Bar Chart Sample");
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
-        final BarChart<String,Number> bc =
-                new BarChart<String,Number>(xAxis,yAxis);
+        final BarChart<String,Number> bc = new BarChart<>(xAxis,yAxis);
         bc.setTitle("Currency rate chart");
         xAxis.setLabel("Weekday");
         yAxis.setLabel("Value");
@@ -85,10 +84,9 @@ public class RateChartGUICommand extends Application implements Runnable{
                 }
 
             }
-
-            bc.getData().addAll(xd.values().toArray(new XYChart.Series[xd.values().toArray().length]));
         }
 
+        bc.getData().addAll(xd.values().toArray(new XYChart.Series[xd.values().toArray().length]));
         stage.setScene(scene);
         stage.show();
     }

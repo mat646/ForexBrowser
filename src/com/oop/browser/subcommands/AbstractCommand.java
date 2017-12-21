@@ -47,6 +47,11 @@ public abstract class AbstractCommand {
      */
     abstract String[] generateURL();
 
+    /**
+     *
+     * @param urls
+     * @param typeValue
+     */
     void executeBuilder(String[] urls, String typeValue) {
         try {
             tableBuilder.setURL(urls).sendRequest().buildSerializable(typeValue);
@@ -61,6 +66,9 @@ public abstract class AbstractCommand {
         }
     }
 
+    /**
+     *
+     */
     abstract void perform();
 
 }

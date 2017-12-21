@@ -5,6 +5,9 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
+/**
+ * @author Mateusz Sokol
+ */
 @Command(
         name = "ForexBrowser",
         sortOptions = false,
@@ -20,7 +23,8 @@ import picocli.CommandLine.Option;
                 MinMaxExchangeRateCommand.class,
                 RateChartCommand.class,
                 SortedSpreadCommand.class,
-                RateChartGUICommand.class
+                RateChartGUICommand.class,
+                CurrencyAndGoldCommand.class
         }
 )
 public class Main implements Runnable{

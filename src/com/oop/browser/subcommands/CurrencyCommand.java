@@ -13,11 +13,11 @@ public class CurrencyCommand extends AbstractCommand implements Runnable {
 
     @Parameters(index = "0", arity = "1", paramLabel = "SYMBOL",
             description = "currency symbol")
-    private String symbol;
+    public String symbol;
 
     @Parameters(index = "1", arity = "1", paramLabel = "DATE",
             description = "date")
-    private Date date;
+    public Date date;
 
     @Override
     public void run() {
