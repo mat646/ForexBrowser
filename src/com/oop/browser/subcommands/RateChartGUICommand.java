@@ -53,18 +53,19 @@ public class RateChartGUICommand extends Application implements Runnable{
         yAxis.setLabel("Value");
 
         RateChartCommand rateChartCommand = new RateChartCommand();
+        rateChartCommand.symbol = getParameters().getRaw().get(0);
         rateChartCommand.startDate = new Date(Long.valueOf(getParameters().getRaw().get(1)));
         rateChartCommand.endDate = new Date(Long.valueOf(getParameters().getRaw().get(2)));
-        rateChartCommand.symbol = getParameters().getRaw().get(0);
 
         rateChartCommand.run();
 
         tableBuilder = rateChartCommand.tableBuilder;
 
-        ArrayList<Table[]> mappedTables = tableBuilder.serializable.stream().map(e -> (Table[]) e).collect(Collectors.toCollection(ArrayList::new));
-        Scene scene  = new Scene(bc,800,600);
+        ArrayList<Table[]> mappedTables = tableBuilder.serializable.stream().map(e -> (Table[]) e)
+                .collect(Collectors.toCollection(ArrayList::new));
 
-        Map<Integer, XYChart.Series> xd = new HashMap<>();
+        Scene scene  = new Scene(bc,800,600);
+        Map<Integer, XYChart.Series> mappedSeries = new HashMap<>();
 
         for (Table[] table : mappedTables) {
             for (Rate rate : table[0].getRates()) {
@@ -72,21 +73,22 @@ public class RateChartGUICommand extends Application implements Runnable{
                 c.setTime(rate.getEffectiveDate());
                 int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
                 int weekOfYear = c.get(Calendar.WEEK_OF_YEAR);
-
-                XYChart.Series xdx = xd.get(weekOfYear);
-                if (xdx == null) {
+                XYChart.Series series = mappedSeries.get(weekOfYear);
+                if (series == null) {
+                    @SuppressWarnings("unchecked")
                     XYChart.Series series1 = new XYChart.Series();
+
                     series1.getData().add(new XYChart.Data(week[dayOfWeek], rate.getMid()));
                     series1.setName(String.valueOf(weekOfYear));
-                    xd.put(weekOfYear, series1);
+                    mappedSeries.put(weekOfYear, series1);
                 } else {
-                    xdx.getData().add(new XYChart.Data(week[dayOfWeek], rate.getMid()));
+                    series.getData().add(new XYChart.Data(week[dayOfWeek], rate.getMid()));
                 }
 
             }
         }
 
-        bc.getData().addAll(xd.values().toArray(new XYChart.Series[xd.values().toArray().length]));
+        bc.getData().addAll(mappedSeries.values().toArray(new XYChart.Series[mappedSeries.values().toArray().length]));
         stage.setScene(scene);
         stage.show();
     }

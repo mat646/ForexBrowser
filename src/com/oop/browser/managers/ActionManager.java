@@ -7,12 +7,16 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Module implementing model for each functionality
+ */
 public class ActionManager implements IManager {
 
     public static class GoldAverage {
 
         public static Double count(ArrayList<Serializable[]> golds) {
-            ArrayList<Gold[]> table = golds.stream().map(e -> (Gold[]) e).collect(Collectors.toCollection(ArrayList::new));
+            ArrayList<Gold[]> table = golds.stream().map(e -> (Gold[]) e)
+                    .collect(Collectors.toCollection(ArrayList::new));
 
             Double sum = .0;
             Integer count = 0;
@@ -27,7 +31,6 @@ public class ActionManager implements IManager {
 
             return sum/count;
         }
-
     }
 
     public static class MinExchangeRate {
@@ -45,13 +48,13 @@ public class ActionManager implements IManager {
 
             return minRate.getCode();
         }
-
     }
 
     public static class MinMaxExchangeRate {
 
         public static Rate[] count(ArrayList<Serializable[]> tables) {
-            ArrayList<Table> mappedTables = tables.stream().map(e -> (Table) e[0]).collect(Collectors.toCollection(ArrayList::new));
+            ArrayList<Table> mappedTables = tables.stream().map(e -> (Table) e[0])
+                    .collect(Collectors.toCollection(ArrayList::new));
 
             Rate minRate = mappedTables.get(0).getRates()[0];
             Rate maxRate = mappedTables.get(0).getRates()[0];
@@ -69,13 +72,13 @@ public class ActionManager implements IManager {
 
             return new Rate[]{minRate, maxRate};
         }
-
     }
 
     public static class MaxFluctuations {
 
         public static String count(ArrayList<Serializable[]> tables) {
-            ArrayList<Table[]> mappedTables = tables.stream().map(e -> (Table[]) e).collect(Collectors.toCollection(ArrayList::new));
+            ArrayList<Table[]> mappedTables = tables.stream().map(e -> (Table[]) e)
+                    .collect(Collectors.toCollection(ArrayList::new));
 
             Map<String, Double> min = new HashMap<>();
             Map<String, Double> max = new HashMap<>();
@@ -96,7 +99,6 @@ public class ActionManager implements IManager {
 
                     }
                 }
-
             }
 
             return findMaxFluctuations(min, max);
@@ -117,8 +119,6 @@ public class ActionManager implements IManager {
 
             return maxFluctuationsCode;
         }
-
-
     }
 
     public static class SortedSpread {
@@ -150,7 +150,5 @@ public class ActionManager implements IManager {
                 return Double.compare(y.getAsk() - y.getBid(), x.getAsk() - x.getBid());
             }
         }
-
     }
-
 }

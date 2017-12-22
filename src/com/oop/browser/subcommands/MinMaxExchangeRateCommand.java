@@ -35,19 +35,21 @@ public class MinMaxExchangeRateCommand extends AbstractCommand implements Runnab
         Calendar calendar = Calendar.getInstance();
         calendar.set(2012,1,1);
 
-        Date tempdate = calendar.getTime();
+        Date tempDate = calendar.getTime();
 
-        while(getDateDiff(tempdate, today, TimeUnit.DAYS) > 90) {
+        while(getDateDiff(tempDate, today, TimeUnit.DAYS) > 90) {
 
-            Date tempDate2 = getAddDay(tempdate, 90);
+            Date tempDate2 = getAddDay(tempDate, 90);
 
-            out.add("http://api.nbp.pl/api/exchangerates/rates/a/"  + symbol + "/" + df.format(tempdate) +  "/" + df.format(tempDate2) + "/?format=json");
+            out.add("http://api.nbp.pl/api/exchangerates/rates/a/"  + symbol + "/" + DATE_FORMAT.format(tempDate) +
+                    "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
 
-            tempdate.setTime(tempDate2.getTime());
+            tempDate.setTime(tempDate2.getTime());
         }
 
-        Date tempdate2 = getAddDay(tempdate, getDateDiff(tempdate, today, TimeUnit.DAYS));
-        out.add("http://api.nbp.pl/api/exchangerates/rates/a/"  + symbol + "/" + df.format(tempdate) +  "/" + df.format(tempdate2) + "/?format=json");
+        Date tempDate2 = getAddDay(tempDate, getDateDiff(tempDate, today, TimeUnit.DAYS));
+        out.add("http://api.nbp.pl/api/exchangerates/rates/a/"  + symbol + "/" + DATE_FORMAT.format(tempDate) +
+                "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
 
         return out.toArray(new String[out.size()]);
     }
@@ -58,8 +60,8 @@ public class MinMaxExchangeRateCommand extends AbstractCommand implements Runnab
         Rate[] result = ActionManager.MinMaxExchangeRate.count(tableBuilder.serializable);
 
         System.out.println("For " + symbol.toUpperCase() + ":");
-        System.out.println("Minimal rate on: " + df.format(result[0].getEffectiveDate()));
-        System.out.println("Maximal rate on: " + df.format(result[1].getEffectiveDate()));
+        System.out.println("Minimal rate on: " + DATE_FORMAT.format(result[0].getEffectiveDate()));
+        System.out.println("Maximal rate on: " + DATE_FORMAT.format(result[1].getEffectiveDate()));
     }
 
 }

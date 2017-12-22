@@ -29,7 +29,7 @@ public class CurrencyTodayCommand extends AbstractCommand implements Runnable {
 
     @Override
     void perform() {
-        System.out.println(symbol.toUpperCase() + " price on " + df.format(Calendar.getInstance().getTime()) + ":");
+        System.out.println(symbol.toUpperCase() + " price on " + DATE_FORMAT.format(Calendar.getInstance().getTime()) + ":");
         System.out.println(((Table[])tableBuilder.serializable.get(0))[0].getRates()[0].getMid());
     }
 }

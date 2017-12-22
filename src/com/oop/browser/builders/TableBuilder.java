@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Concrete implementation of builder design pattern
+ */
 public class TableBuilder implements IBuilder {
 
     public String[] URL;
@@ -23,14 +26,13 @@ public class TableBuilder implements IBuilder {
 
     @Override
     public TableBuilder sendRequest() throws IOException, InvalidArgumentsException, DataNotFoundException {
-
         NBPWebAPIClient nbpWebAPIClient = new NBPWebAPIClient();
         JSON = nbpWebAPIClient.sendRequest(URL);
         return this;
     }
 
     @Override
-    public ArrayList<Serializable[]> buildSerializable(String typeValue) throws IOException {
+    public TableBuilder buildSerializable(String typeValue) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -51,6 +53,6 @@ public class TableBuilder implements IBuilder {
         }
 
         serializable = serializableArrayList;
-        return serializable;
+        return this;
     }
 }

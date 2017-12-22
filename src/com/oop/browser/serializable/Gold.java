@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * POJO for JSON received from nbp.api.pl
+ * @see com.oop.browser.builders.modules.NBPWebAPIClient
+ * @see java.io.Serializable
+ */
 public class Gold implements Serializable {
 
     private Date date;

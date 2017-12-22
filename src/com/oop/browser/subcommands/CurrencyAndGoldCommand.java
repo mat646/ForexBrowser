@@ -1,19 +1,20 @@
 package com.oop.browser.subcommands;
 
-import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 import java.util.Date;
 
-@CommandLine.Command(
+@Command(
         name = "currency-gold",
         description = "Shows currency price and gold price for given day"
 )
 public class CurrencyAndGoldCommand extends AbstractCommand implements Runnable {
 
-    @CommandLine.Parameters(index = "0", arity = "1", paramLabel = "SYMBOL",
+    @Parameters(index = "0", arity = "1", paramLabel = "SYMBOL",
             description = "currency symbol")
     private String symbol;
 
-    @CommandLine.Parameters(index = "1", arity = "1", paramLabel = "DATE",
+    @Parameters(index = "1", arity = "1", paramLabel = "DATE",
             description = "date")
     private Date date;
 

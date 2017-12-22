@@ -23,7 +23,7 @@ public class MinExchangeRateCommand extends AbstractCommand implements Runnable 
     }
 
     public String[] generateURL() {
-        return new String[]{"http://api.nbp.pl/api/exchangerates/tables/c/" + df.format(date) + "/?format=json"};
+        return new String[]{"http://api.nbp.pl/api/exchangerates/tables/c/" + DATE_FORMAT.format(date) + "/?format=json"};
     }
 
     public void perform() {

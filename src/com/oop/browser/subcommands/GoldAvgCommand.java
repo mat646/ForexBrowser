@@ -41,14 +41,14 @@ public class GoldAvgCommand extends AbstractCommand implements Runnable {
 
             Date tempDate2 = getAddDay(tempDate, 90);
 
-            out.add("http://api.nbp.pl/api/cenyzlota/" + df.format(tempDate) + "/" + df.format(tempDate2) + "/?format=json");
+            out.add("http://api.nbp.pl/api/cenyzlota/" + DATE_FORMAT.format(tempDate) + "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
 
             tempDate.setTime(tempDate2.getTime());
 
         }
 
-        Date tempdate2 = getAddDay(tempDate, getDateDiff(tempDate, endDate, TimeUnit.DAYS));
-        out.add("http://api.nbp.pl/api/cenyzlota/" + df.format(tempDate) + "/" + df.format(tempdate2) + "/?format=json");
+        Date tempDate2 = getAddDay(tempDate, getDateDiff(tempDate, endDate, TimeUnit.DAYS));
+        out.add("http://api.nbp.pl/api/cenyzlota/" + DATE_FORMAT.format(tempDate) + "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
 
         return out.toArray(new String[out.size()]);
 
@@ -58,11 +58,11 @@ public class GoldAvgCommand extends AbstractCommand implements Runnable {
     void perform() {
         Double avg = ActionManager.GoldAverage.count(tableBuilder.serializable);
 
-        DecimalFormat dfe = new DecimalFormat("#.##");
-        dfe.setRoundingMode(RoundingMode.CEILING);
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        decimalFormat.setRoundingMode(RoundingMode.CEILING);
 
-        System.out.println("Average gold price since " + df.format(startDate) +
-                " to " + df.format(endDate) + ":\n" + dfe.format(avg));
+        System.out.println("Average gold price since " + DATE_FORMAT.format(startDate) +
+                " to " + DATE_FORMAT.format(endDate) + ":\n" + decimalFormat.format(avg));
     }
 
 }

@@ -7,6 +7,7 @@ import picocli.CommandLine.Option;
 
 /**
  * @author Mateusz Sokol
+ * @version 1.0
  */
 @Command(
         name = "ForexBrowser",

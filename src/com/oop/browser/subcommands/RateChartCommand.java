@@ -2,13 +2,6 @@ package com.oop.browser.subcommands;
 
 import com.oop.browser.serializable.Rate;
 import com.oop.browser.serializable.Table;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.stage.Stage;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 import java.util.ArrayList;
@@ -45,20 +38,20 @@ public class RateChartCommand extends AbstractCommand implements Runnable {
     String[] generateURL() {
 
         ArrayList<String> out = new ArrayList<>();
-        Date tempdate = new Date();
-        tempdate.setTime(startDate.getTime());
+        Date tempDate = new Date();
+        tempDate.setTime(startDate.getTime());
 
-        while(getDateDiff(tempdate, endDate, TimeUnit.DAYS) > 90) {
+        while(getDateDiff(tempDate, endDate, TimeUnit.DAYS) > 90) {
 
-            Date tempDate2 = getAddDay(tempdate, 90);
+            Date tempDate2 = getAddDay(tempDate, 90);
 
-            out.add("http://api.nbp.pl/api/exchangerates/rates/a/" + symbol + "/" + df.format(tempdate) + "/" + df.format(tempDate2) + "/?format=json");
+            out.add("http://api.nbp.pl/api/exchangerates/rates/a/" + symbol + "/" + DATE_FORMAT.format(tempDate) + "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
 
-            tempdate.setTime(tempDate2.getTime());
+            tempDate.setTime(tempDate2.getTime());
         }
 
-        Date tempdate2 = getAddDay(tempdate, getDateDiff(tempdate, endDate, TimeUnit.DAYS));
-        out.add("http://api.nbp.pl/api/exchangerates/rates/a/" + symbol + "/" + df.format(tempdate) + "/" + df.format(tempdate2) + "/?format=json");
+        Date tempDate2 = getAddDay(tempDate, getDateDiff(tempDate, endDate, TimeUnit.DAYS));
+        out.add("http://api.nbp.pl/api/exchangerates/rates/a/" + symbol + "/" + DATE_FORMAT.format(tempDate) + "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
 
         return out.toArray(new String[out.size()]);
     }
@@ -72,7 +65,7 @@ public class RateChartCommand extends AbstractCommand implements Runnable {
 
             for (Rate rate : t1.getRates()) {
 
-                System.out.print(df.format(rate.getEffectiveDate()));
+                System.out.print(DATE_FORMAT.format(rate.getEffectiveDate()));
 
                 Double xd = rate.getMid()*10;
 
@@ -83,7 +76,6 @@ public class RateChartCommand extends AbstractCommand implements Runnable {
                 System.out.print("\n");
             }
         }
-
     }
 
 }

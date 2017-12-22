@@ -3,6 +3,11 @@ package com.oop.browser.serializable;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * POJO for JSON received from nbp.api.pl
+ * @see com.oop.browser.builders.modules.NBPWebAPIClient
+ * @see java.io.Serializable
+ */
 public class Rate implements Serializable {
 
     private String no;

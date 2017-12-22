@@ -38,7 +38,7 @@ public class SortedSpreadCommand extends AbstractCommand implements Runnable {
 
     @Override
     String[] generateURL() {
-        return new String[]{"http://api.nbp.pl/api/exchangerates/tables/c/" + df.format(date) + "/?format=json"};
+        return new String[]{"http://api.nbp.pl/api/exchangerates/tables/c/" + DATE_FORMAT.format(date) + "/?format=json"};
     }
 
     @Override

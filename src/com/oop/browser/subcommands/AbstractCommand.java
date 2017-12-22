@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractCommand {
 
-    public static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    public static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     protected TableBuilder tableBuilder = new TableBuilder();
 
@@ -67,8 +67,8 @@ public abstract class AbstractCommand {
     }
 
     /**
-     *
+     * Performs printing processed values in terminal or in new window
+     * @see RateChartGUICommand
      */
     abstract void perform();
-
 }

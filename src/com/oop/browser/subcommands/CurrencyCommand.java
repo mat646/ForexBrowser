@@ -29,12 +29,12 @@ public class CurrencyCommand extends AbstractCommand implements Runnable {
     @Override
     String[] generateURL() {
         return new String[]{"http://api.nbp.pl/api/exchangerates/rates/a/" + symbol +
-                "/" + df.format(date) + "/?format=json"};
+                "/" + DATE_FORMAT.format(date) + "/?format=json"};
     }
 
     @Override
     void perform() {
-        System.out.println(symbol.toUpperCase() + " price on " + df.format(date) + ":");
+        System.out.println(symbol.toUpperCase() + " price on " + DATE_FORMAT.format(date) + ":");
         System.out.println(((Table[])tableBuilder.serializable.get(0))[0].getRates()[0].getMid());
     }
 

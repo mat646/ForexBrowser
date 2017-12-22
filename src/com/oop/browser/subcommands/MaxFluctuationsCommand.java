@@ -1,11 +1,8 @@
 package com.oop.browser.subcommands;
 
-import com.oop.browser.exceptions.DataNotFoundException;
-import com.oop.browser.exceptions.InvalidArgumentsException;
 import com.oop.browser.managers.ActionManager;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -40,13 +37,13 @@ public class MaxFluctuationsCommand extends AbstractCommand implements Runnable 
 
             Date tempDate2 = getAddDay(tempDate, 90);
 
-            out.add("http://api.nbp.pl/api/exchangerates/tables/a/" + df.format(tempDate) + "/" + df.format(tempDate2) + "/?format=json");
+            out.add("http://api.nbp.pl/api/exchangerates/tables/a/" + DATE_FORMAT.format(tempDate) + "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
 
             tempDate.setTime(tempDate2.getTime());
         }
 
-        Date tempdate2 = getAddDay(tempDate, getDateDiff(tempDate, today, TimeUnit.DAYS));
-        out.add("http://api.nbp.pl/api/exchangerates/tables/a/" + df.format(tempDate) + "/" + df.format(tempdate2) + "/?format=json");
+        Date tempDate2 = getAddDay(tempDate, getDateDiff(tempDate, today, TimeUnit.DAYS));
+        out.add("http://api.nbp.pl/api/exchangerates/tables/a/" + DATE_FORMAT.format(tempDate) + "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
 
         return out.toArray(new String[out.size()]);
     }
@@ -55,7 +52,7 @@ public class MaxFluctuationsCommand extends AbstractCommand implements Runnable 
     void perform() {
 
         String symbol = ActionManager.MaxFluctuations.count(tableBuilder.serializable);
-        System.out.println(symbol + " since " + df.format(date));
+        System.out.println(symbol + " since " + DATE_FORMAT.format(date));
     }
 
 }

@@ -13,7 +13,7 @@ public class GoldCommand extends AbstractCommand implements Runnable {
 
     @Parameters(index = "0", arity = "1", paramLabel = "DATE",
             description = "Date for gold price")
-    Date date;
+    public Date date;
 
     @Override
     public void run() {
@@ -24,12 +24,12 @@ public class GoldCommand extends AbstractCommand implements Runnable {
 
     @Override
     String[] generateURL() {
-        return new String[]{"http://api.nbp.pl/api/cenyzlota/" + df.format(date) + "/?format=json"};
+        return new String[]{"http://api.nbp.pl/api/cenyzlota/" + DATE_FORMAT.format(date) + "/?format=json"};
     }
 
     @Override
     void perform() {
-        System.out.println("Gold price on " + df.format(date) + ":");
+        System.out.println("Gold price on " + DATE_FORMAT.format(date) + ":");
         System.out.println(((Gold[])tableBuilder.serializable.get(0))[0].getPrice());
     }
 
