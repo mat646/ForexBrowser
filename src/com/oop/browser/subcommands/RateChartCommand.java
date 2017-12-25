@@ -27,6 +27,30 @@ public class RateChartCommand extends AbstractCommand implements Runnable {
             description = "end date")
     Date endDate;
 
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     @Override
     public void run() {
         String[] urls = generateURL();
@@ -38,33 +62,35 @@ public class RateChartCommand extends AbstractCommand implements Runnable {
     String[] generateURL() {
 
         ArrayList<String> out = new ArrayList<>();
-        Date tempDate = new Date();
-        tempDate.setTime(startDate.getTime());
+        Date midStartDate = new Date();
+        midStartDate.setTime(startDate.getTime());
 
-        while(getDateDiff(tempDate, endDate, TimeUnit.DAYS) > 90) {
+        while(getDateDiff(midStartDate, endDate, TimeUnit.DAYS) > 90) {
 
-            Date tempDate2 = getAddDay(tempDate, 90);
+            Date midEndDate = getAddDay(midStartDate, 90);
 
-            out.add("http://api.nbp.pl/api/exchangerates/rates/a/" + symbol + "/" + DATE_FORMAT.format(tempDate) + "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
+            out.add("http://api.nbp.pl/api/exchangerates/rates/a/" + symbol + "/" + DATE_FORMAT.format(midStartDate) + "/" +
+                    DATE_FORMAT.format(midEndDate) + "/?format=json");
 
-            tempDate.setTime(tempDate2.getTime());
+            midStartDate.setTime(midEndDate.getTime());
         }
 
-        Date tempDate2 = getAddDay(tempDate, getDateDiff(tempDate, endDate, TimeUnit.DAYS));
-        out.add("http://api.nbp.pl/api/exchangerates/rates/a/" + symbol + "/" + DATE_FORMAT.format(tempDate) + "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
+        Date midEndDate = getAddDay(midStartDate, getDateDiff(midStartDate, endDate, TimeUnit.DAYS));
+        out.add("http://api.nbp.pl/api/exchangerates/rates/a/" + symbol + "/" + DATE_FORMAT.format(midStartDate) + "/" +
+                DATE_FORMAT.format(midEndDate) + "/?format=json");
 
         return out.toArray(new String[out.size()]);
     }
 
     @Override
     void perform() {
-        ArrayList<Table[]> mappedTables = tableBuilder.serializable.stream().map(e -> (Table[]) e).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<Table[]> mappedTables = tableBuilder.serializable.stream().map(e -> (Table[]) e)
+                .collect(Collectors.toCollection(ArrayList::new));
 
         for (Table[] table : mappedTables) {
             Table t1 = table[0];
 
             for (Rate rate : t1.getRates()) {
-
                 System.out.print(DATE_FORMAT.format(rate.getEffectiveDate()));
 
                 Double xd = rate.getMid()*10;

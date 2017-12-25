@@ -15,6 +15,14 @@ public class MinExchangeRateCommand extends AbstractCommand implements Runnable 
             description = "date")
     private Date date;
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     @Override
     public void run() {
         String[] url = generateURL();

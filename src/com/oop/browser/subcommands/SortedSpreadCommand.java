@@ -24,6 +24,22 @@ public class SortedSpreadCommand extends AbstractCommand implements Runnable {
             description = "Amount of head results")
     private int n;
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public int getN() {
+        return n;
+    }
+
+    public void setN(int n) {
+        this.n = n;
+    }
+
     @Override
     public void run() {
         if (n < 1) {

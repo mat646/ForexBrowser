@@ -23,6 +23,22 @@ public class GoldAvgCommand extends AbstractCommand implements Runnable {
             description = "Ending date of period")
     private Date endDate;
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     @Override
     public void run() {
         String[] urls = generateURL();
@@ -32,26 +48,26 @@ public class GoldAvgCommand extends AbstractCommand implements Runnable {
 
     @Override
     String[] generateURL() {
+        ArrayList<String> result = new ArrayList<>();
+        Date midStartDate = new Date();
+        midStartDate.setTime(startDate.getTime());
 
-        ArrayList<String> out = new ArrayList<>();
-        Date tempDate = new Date();
-        tempDate.setTime(startDate.getTime());
+        while(getDateDiff(midStartDate, endDate, TimeUnit.DAYS) > 90) {
 
-        while(getDateDiff(tempDate, endDate, TimeUnit.DAYS) > 90) {
+            Date midEndDate = getAddDay(midStartDate, 90);
 
-            Date tempDate2 = getAddDay(tempDate, 90);
+            result.add("http://api.nbp.pl/api/cenyzlota/" + DATE_FORMAT.format(midStartDate) + "/" +
+                    DATE_FORMAT.format(midEndDate) + "/?format=json");
 
-            out.add("http://api.nbp.pl/api/cenyzlota/" + DATE_FORMAT.format(tempDate) + "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
-
-            tempDate.setTime(tempDate2.getTime());
+            midStartDate.setTime(midEndDate.getTime());
 
         }
 
-        Date tempDate2 = getAddDay(tempDate, getDateDiff(tempDate, endDate, TimeUnit.DAYS));
-        out.add("http://api.nbp.pl/api/cenyzlota/" + DATE_FORMAT.format(tempDate) + "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
+        Date midEndDate = getAddDay(midStartDate, getDateDiff(midStartDate, endDate, TimeUnit.DAYS));
+        result.add("http://api.nbp.pl/api/cenyzlota/" + DATE_FORMAT.format(midStartDate) + "/" +
+                DATE_FORMAT.format(midEndDate) + "/?format=json");
 
-        return out.toArray(new String[out.size()]);
-
+        return result.toArray(new String[result.size()]);
     }
 
     @Override

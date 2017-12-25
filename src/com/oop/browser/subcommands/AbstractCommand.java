@@ -17,40 +17,40 @@ public abstract class AbstractCommand {
     protected TableBuilder tableBuilder = new TableBuilder();
 
     /**
-     * Get a diff between two dates
+     * Get a difference between two dates
      * @param date1 the oldest date
      * @param date2 the newest date
-     * @param timeUnit the unit in which you want the diff
-     * @return the diff value, in the provided unit
+     * @param timeUnit the unit in which you want the difference
+     * @return the difference value in provided unit
      */
     public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
-        long diffInMillies = date2.getTime() - date1.getTime();
-        return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        long diffInMs = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMs, TimeUnit.MILLISECONDS);
     }
 
     /**
-     *
-     * @param date1
-     * @param days
-     * @return
+     * Increase date with given number of days
+     * @param date that will be increased
+     * @param days to be added to date
+     * @return modified date
      */
-    public static Date getAddDay(Date date1, long days) {
+    public static Date getAddDay(Date date, long days) {
         Calendar c = Calendar.getInstance();
-        c.setTime(date1);
+        c.setTime(date);
         c.add(Calendar.DATE, (int) days);  // number of days to add
         return c.getTime();
     }
 
     /**
-     *
-     * @return
+     * Generating collection
+     * @return generated collection of urls
      */
     abstract String[] generateURL();
 
     /**
-     *
-     * @param urls
-     * @param typeValue
+     * Performs creation process for given urls
+     * @param urls for api requests
+     * @param typeValue describes type of POJO pattern for received JSON
      */
     void executeBuilder(String[] urls, String typeValue) {
         try {
@@ -68,7 +68,7 @@ public abstract class AbstractCommand {
 
     /**
      * Performs printing processed values in terminal or in new window
-     * @see RateChartGUICommand
+     * @see RateChartGUICommand for window printing
      */
     abstract void perform();
 }

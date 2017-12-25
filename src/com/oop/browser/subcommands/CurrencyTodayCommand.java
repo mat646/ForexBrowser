@@ -15,6 +15,14 @@ public class CurrencyTodayCommand extends AbstractCommand implements Runnable {
             description = "currency symbol")
     private String symbol;
 
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
     @Override
     public void run() {
         String[] urls = generateURL();

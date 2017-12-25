@@ -18,6 +18,22 @@ public class CurrencyAndGoldCommand extends AbstractCommand implements Runnable 
             description = "date")
     private Date date;
 
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     @Override
     String[] generateURL() {
         return new String[0];
@@ -31,12 +47,12 @@ public class CurrencyAndGoldCommand extends AbstractCommand implements Runnable 
     @Override
     public void run() {
         CurrencyCommand currencyCommand = new CurrencyCommand();
-        currencyCommand.date = new Date(date.getTime());
-        currencyCommand.symbol = symbol;
+        currencyCommand.setDate(new Date(date.getTime()));
+        currencyCommand.setSymbol(symbol);
         currencyCommand.run();
 
         GoldCommand goldCommand = new GoldCommand();
-        goldCommand.date = new Date(date.getTime());
+        goldCommand.setDate(new Date(date.getTime()));
         goldCommand.run();
     }
 }

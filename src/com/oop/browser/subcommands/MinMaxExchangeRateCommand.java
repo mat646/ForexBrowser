@@ -19,6 +19,14 @@ public class MinMaxExchangeRateCommand extends AbstractCommand implements Runnab
             description = "currency symbol")
     private String symbol;
 
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
     private Date today = Calendar.getInstance().getTime();
 
     @Override
@@ -30,33 +38,31 @@ public class MinMaxExchangeRateCommand extends AbstractCommand implements Runnab
 
     @Override
     public String[] generateURL() {
-
-        ArrayList<String> out = new ArrayList<>();
+        ArrayList<String> result = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
-        calendar.set(2012,1,1);
+        calendar.set(2012,Calendar.FEBRUARY,1);
 
-        Date tempDate = calendar.getTime();
+        Date midStartDate = calendar.getTime();
 
-        while(getDateDiff(tempDate, today, TimeUnit.DAYS) > 90) {
+        while(getDateDiff(midStartDate, today, TimeUnit.DAYS) > 90) {
 
-            Date tempDate2 = getAddDay(tempDate, 90);
+            Date midEndDate = getAddDay(midStartDate, 90);
 
-            out.add("http://api.nbp.pl/api/exchangerates/rates/a/"  + symbol + "/" + DATE_FORMAT.format(tempDate) +
-                    "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
+            result.add("http://api.nbp.pl/api/exchangerates/rates/a/"  + symbol + "/" + DATE_FORMAT.format(midStartDate) +
+                    "/" + DATE_FORMAT.format(midEndDate) + "/?format=json");
 
-            tempDate.setTime(tempDate2.getTime());
+            midStartDate.setTime(midEndDate.getTime());
         }
 
-        Date tempDate2 = getAddDay(tempDate, getDateDiff(tempDate, today, TimeUnit.DAYS));
-        out.add("http://api.nbp.pl/api/exchangerates/rates/a/"  + symbol + "/" + DATE_FORMAT.format(tempDate) +
-                "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
+        Date midEndDate = getAddDay(midStartDate, getDateDiff(midStartDate, today, TimeUnit.DAYS));
+        result.add("http://api.nbp.pl/api/exchangerates/rates/a/"  + symbol + "/" + DATE_FORMAT.format(midStartDate) +
+                "/" + DATE_FORMAT.format(midEndDate) + "/?format=json");
 
-        return out.toArray(new String[out.size()]);
+        return result.toArray(new String[result.size()]);
     }
 
     @Override
     void perform() {
-
         Rate[] result = ActionManager.MinMaxExchangeRate.count(tableBuilder.serializable);
 
         System.out.println("For " + symbol.toUpperCase() + ":");

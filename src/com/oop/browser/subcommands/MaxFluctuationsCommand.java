@@ -18,6 +18,14 @@ public class MaxFluctuationsCommand extends AbstractCommand implements Runnable 
             description = "Start date for fluctuations period")
     private Date date;
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     private Date today = Calendar.getInstance().getTime();
 
     @Override
@@ -30,20 +38,22 @@ public class MaxFluctuationsCommand extends AbstractCommand implements Runnable 
     @Override
     String[] generateURL() {
         ArrayList<String> out = new ArrayList<>();
-        Date tempDate = new Date();
-        tempDate.setTime(date.getTime());
+        Date midStartDate = new Date();
+        midStartDate.setTime(date.getTime());
 
-        while(getDateDiff(tempDate, today, TimeUnit.DAYS) > 90) {
+        while(getDateDiff(midStartDate, today, TimeUnit.DAYS) > 90) {
 
-            Date tempDate2 = getAddDay(tempDate, 90);
+            Date midEndDate = getAddDay(midStartDate, 90);
 
-            out.add("http://api.nbp.pl/api/exchangerates/tables/a/" + DATE_FORMAT.format(tempDate) + "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
+            out.add("http://api.nbp.pl/api/exchangerates/tables/a/" + DATE_FORMAT.format(midStartDate) + "/" +
+                    DATE_FORMAT.format(midEndDate) + "/?format=json");
 
-            tempDate.setTime(tempDate2.getTime());
+            midStartDate.setTime(midEndDate.getTime());
         }
 
-        Date tempDate2 = getAddDay(tempDate, getDateDiff(tempDate, today, TimeUnit.DAYS));
-        out.add("http://api.nbp.pl/api/exchangerates/tables/a/" + DATE_FORMAT.format(tempDate) + "/" + DATE_FORMAT.format(tempDate2) + "/?format=json");
+        Date midEndDate = getAddDay(midStartDate, getDateDiff(midStartDate, today, TimeUnit.DAYS));
+        out.add("http://api.nbp.pl/api/exchangerates/tables/a/" + DATE_FORMAT.format(midStartDate) + "/" +
+                DATE_FORMAT.format(midEndDate) + "/?format=json");
 
         return out.toArray(new String[out.size()]);
     }
