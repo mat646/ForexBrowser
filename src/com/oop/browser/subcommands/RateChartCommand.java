@@ -17,15 +17,15 @@ public class RateChartCommand extends AbstractCommand implements Runnable {
 
     @Parameters(index = "0", arity = "1", paramLabel = "SYMBOL",
             description = "currency symbol")
-    String symbol;
+    private String symbol;
 
     @Parameters(index = "1", arity = "1", paramLabel = "START_DATE",
             description = "start date")
-    Date startDate;
+    private Date startDate;
 
     @Parameters(index = "2", arity = "1", paramLabel = "END_DATE",
             description = "end date")
-    Date endDate;
+    private Date endDate;
 
     public String getSymbol() {
         return symbol;

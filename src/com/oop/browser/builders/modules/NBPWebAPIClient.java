@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class NBPWebAPIClient {
 
     /**
-     *
+     * Sends request for every url from passed collection and receives JSON
      * @param URLs array of url addresses which need to be requested
      * @return array of received JSONs
      * @throws InvalidArgumentsException in case of inappropriate parameters in url
@@ -48,6 +48,8 @@ public class NBPWebAPIClient {
                         throw new InvalidArgumentsException();
                     case 404:
                         throw new DataNotFoundException();
+                    default:
+                        throw new IOException();
                 }
 
                 connection.disconnect();

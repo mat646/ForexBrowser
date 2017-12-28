@@ -53,9 +53,9 @@ public class RateChartGUICommand extends Application implements Runnable{
         yAxis.setLabel("Value");
 
         RateChartCommand rateChartCommand = new RateChartCommand();
-        rateChartCommand.symbol = getParameters().getRaw().get(0);
-        rateChartCommand.startDate = new Date(Long.valueOf(getParameters().getRaw().get(1)));
-        rateChartCommand.endDate = new Date(Long.valueOf(getParameters().getRaw().get(2)));
+        rateChartCommand.setSymbol(getParameters().getRaw().get(0));
+        rateChartCommand.setStartDate(new Date(Long.valueOf(getParameters().getRaw().get(1))));
+        rateChartCommand.setEndDate(new Date(Long.valueOf(getParameters().getRaw().get(2))));
 
         rateChartCommand.run();
 
@@ -75,13 +75,13 @@ public class RateChartGUICommand extends Application implements Runnable{
                 int weekOfYear = c.get(Calendar.WEEK_OF_YEAR);
                 XYChart.Series series = mappedSeries.get(weekOfYear);
                 if (series == null) {
-                    @SuppressWarnings("unchecked")
                     XYChart.Series series1 = new XYChart.Series();
 
                     series1.getData().add(new XYChart.Data(week[dayOfWeek], rate.getMid()));
                     series1.setName(String.valueOf(weekOfYear));
                     mappedSeries.put(weekOfYear, series1);
                 } else {
+
                     series.getData().add(new XYChart.Data(week[dayOfWeek], rate.getMid()));
                 }
 

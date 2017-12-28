@@ -5,7 +5,7 @@ import java.io.PrintStream;
 import java.util.Calendar;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CommandTest {
+class CommandTest {
 
     private ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private ByteArrayOutputStream errContent = new ByteArrayOutputStream();

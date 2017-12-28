@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 @Command(
         name = "gold-avg",
-        description = "Average gold price for period"
+        description = "Average gold price for given period"
 )
 public class GoldAvgCommand extends AbstractCommand implements Runnable {
 

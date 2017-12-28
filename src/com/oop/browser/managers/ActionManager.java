@@ -12,6 +12,9 @@ import java.util.stream.Collectors;
  */
 public class ActionManager implements IManager {
 
+    /**
+     * @see com.oop.browser.subcommands.GoldAvgCommand
+     */
     public static class GoldAverage {
 
         public static Double count(ArrayList<Serializable[]> golds) {
@@ -33,6 +36,9 @@ public class ActionManager implements IManager {
         }
     }
 
+    /**
+     * @see com.oop.browser.subcommands.MinExchangeRateCommand
+     */
     public static class MinExchangeRate {
 
         public static String count(ArrayList<Serializable[]> tables) {
@@ -50,6 +56,9 @@ public class ActionManager implements IManager {
         }
     }
 
+    /**
+     * @see com.oop.browser.subcommands.MinMaxExchangeRateCommand
+     */
     public static class MinMaxExchangeRate {
 
         public static Rate[] count(ArrayList<Serializable[]> tables) {
@@ -74,6 +83,9 @@ public class ActionManager implements IManager {
         }
     }
 
+    /**
+     * @see com.oop.browser.subcommands.MaxFluctuationsCommand
+     */
     public static class MaxFluctuations {
 
         public static String count(ArrayList<Serializable[]> tables) {
@@ -121,6 +133,9 @@ public class ActionManager implements IManager {
         }
     }
 
+    /**
+     * @see com.oop.browser.subcommands.SortedSpreadCommand
+     */
     public static class SortedSpread {
 
         public static Rate[] count(Table table, int n) {

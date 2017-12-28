@@ -17,19 +17,19 @@ public interface IBuilder {
     public IBuilder setURL(String[] urls);
 
     /**
-     *
+     * Transforms collection of urls into JSONs by sending requests
      * @return itself
-     * @throws IOException
-     * @throws InvalidArgumentsException
-     * @throws DataNotFoundException
+     * @throws IOException in case of connection error
+     * @throws InvalidArgumentsException in case of inappropriate passed arguments (i.e. invalid date format)
+     * @throws DataNotFoundException on not finding data for given date
      */
     public IBuilder sendRequest() throws IOException, InvalidArgumentsException, DataNotFoundException;
 
     /**
-     *
+     * Creates POJO from JSON
      * @param typeValue is key for specific POJO from serializable package
      * @return itself
-     * @throws IOException
+     * @throws IOException in case of invalid .class form for serializable creator
      */
     public IBuilder buildSerializable(String typeValue) throws IOException;
 
