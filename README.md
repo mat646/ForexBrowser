@@ -24,7 +24,7 @@ Build jar by building artifact in Intellij IDEA / Eclipse
 
 ### Install autocomplete:
 
-Only for temporary installatinon. Enables console autocomplete.
+Only for temporary installation. Enables console autocomplete.
 
 ```sh
 
