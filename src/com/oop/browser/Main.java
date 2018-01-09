@@ -6,7 +6,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 /**
- * @author Mateusz Sokol
+ * @author mat646
  * @version 1.0
  */
 @Command(
